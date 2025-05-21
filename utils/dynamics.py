@@ -114,7 +114,7 @@ def B_cm(s, m1, m2, L, q0, branch=1, branch_cut_angle=0):
         B_val = x**2 / np.sqrt(9 + 3 * x**2 + x**4)
     else:
         raise ValueError("L must be 1 or 2")
-    B_val[B_val < 1e-10] = 0.0
+    B_val[abs(B_val) < 1e-10] = 0.0
     return B_val
 
 
