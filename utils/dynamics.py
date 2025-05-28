@@ -1,17 +1,23 @@
 import numpy as np
+import numpy.typing as npt
 
 
-def my_sqrt(z, branch=1, branch_cut_angle=0):
+def my_sqrt(
+    z: complex | npt.NDArray[np.complex128], branch=1, branch_cut_angle=0.0
+) -> np.complex128 | npt.NDArray[np.complex128]:
     """
-    Complex square root with a variable branch cut angle and the option to choose the branch.
+    _summary_
 
     Args:
-        z (complex): complex number
-        branch (int, optional): branch of the square root. 1 is the principal branch -1 is the 2nd branch. Defaults to 1.
-        branch_cut_angle (int, optional): Angle of the branch cut with respect to the real axis. Defaults to 0.
+        z (complex | npt.NDArray[np.complex128]): _description_
+        branch (int, optional): _description_. Defaults to 1.
+        branch_cut_angle (float, optional): _description_. Defaults to 0.0.
+
+    Raises:
+        ValueError: _description_
 
     Returns:
-        complex: Returns the square root of z on the chosen branch with the chosen branch cut.
+        np.complex128 | npt.NDArray[np.complex128]: _description_
     """
 
     if branch not in [-1, 1]:
@@ -25,23 +31,44 @@ def my_sqrt(z, branch=1, branch_cut_angle=0):
     return r * np.exp(1j * phi / 2)
 
 
-def kaellen(x, y, z):
+def kaellen(
+    x: complex | npt.NDArray[np.complex128],
+    y: complex | npt.NDArray[np.complex128],
+    z: complex | npt.NDArray[np.complex128],
+) -> complex | npt.NDArray[np.complex128]:
+    """
+    _summary_
+
+    Args:
+        x (complex | npt.NDArray[np.complex128]): _description_
+        y (complex | npt.NDArray[np.complex128]): _description_
+        z (complex | npt.NDArray[np.complex128]): _description_
+
+    Returns:
+        complex | npt.NDArray[np.complex128]: _description_
+    """
     return x**2 + y**2 + z**2 - 2 * x * y - 2 * y * z - 2 * x * z
 
 
-def q(s, m1, m2, branch=1, branch_cut_angle=0):
+def q(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     """
-    Absolute 3-momentum of the daughter particles in the center-of-momentum frame of the mother particle.
+    _summary_
 
     Args:
-        s (_type_): mandelstam variable
-        m1 (_type_): invariant mass of the first daughter particle
-        m2 (_type_): invariant mass of the second daughter particle
-        branch (int, optional): branch of the square root. 1 is the principal branch -1 is the 2nd branch. Defaults to 1.
-        branch_cut_angle (int, optional): Angle of the branch cut with respect to the real axis. Defaults to 0.
+        s (complex | npt.NDArray[np.complex128]): _description_
+        m1 (float): _description_
+        m2 (float): _description_
+        branch (int, optional): _description_. Defaults to 1.
+        branch_cut_angle (float, optional): _description_. Defaults to 0.0.
 
     Returns:
-        _type_: Returns the absolute 3-momentum of the daughter particles in the center-of-momentum frame of the mother particle.
+        _type_: _description_
     """
 
     kaellen_val = kaellen(s, m1**2, m2**2)
@@ -50,7 +77,13 @@ def q(s, m1, m2, branch=1, branch_cut_angle=0):
     )
 
 
-def rho(s, m1, m2, branch=1, branch_cut_angle=0):
+def rho(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    branch=1,
+    branch_cut_angle=0,
+) -> complex | npt.NDArray[np.complex128]:
     """
     Phase space factor for the decay of a particle into two daughter particles.
 
@@ -68,7 +101,15 @@ def rho(s, m1, m2, branch=1, branch_cut_angle=0):
     return 1.0 / (16 * np.pi) * 2 * q_val / np.sqrt(s)
 
 
-def B(s, m1, m2, L, q0, branch=1, branch_cut_angle=0):
+def B(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    L: int,
+    q0: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     if L == 0:
         return 1.0
     else:
@@ -83,7 +124,13 @@ def B(s, m1, m2, L, q0, branch=1, branch_cut_angle=0):
     return B_val
 
 
-def cm(s, m1, m2, branch=1, branch_cut_angle=0):
+def cm(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     q_val = q(s, m1, m2, branch, branch_cut_angle)
     return (
         1
@@ -98,11 +145,25 @@ def cm(s, m1, m2, branch=1, branch_cut_angle=0):
     )
 
 
-def q_cm(s, m1, m2, branch=1, branch_cut_angle=0):
+def q_cm(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     return 8.0 * np.pi * np.sqrt(s) * np.imag(cm(s, m1, m2, branch, branch_cut_angle))
 
 
-def B_cm(s, m1, m2, L, q0, branch=1, branch_cut_angle=0):
+def B_cm(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    L: int,
+    q0: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     if L == 0:
         return 1.0
     else:
@@ -118,13 +179,17 @@ def B_cm(s, m1, m2, L, q0, branch=1, branch_cut_angle=0):
     return B_val
 
 
-def rho_dudek(s, m1, m2):
+def rho_dudek(
+    s: complex | npt.NDArray[np.complex128], m1: float, m2: float
+) -> complex | npt.NDArray[np.complex128]:
     if abs(s - (m1 + m2) ** 2) < 1e-10:
         return 0.0 + 0.0j
     return np.sqrt(1.0 - (m1 + m2) ** 2 / s) * np.sqrt(1.0 - (m1 - m2) ** 2 / s)
 
 
-def rho_dudek_arr(s, m1, m2):
+def rho_dudek_arr(
+    s: complex | npt.NDArray[np.complex128], m1: float, m2: float
+) -> complex | npt.NDArray[np.complex128]:
     rho_vals = np.zeros_like(s, dtype=complex)
     valid = np.abs(s - (m1 + m2) ** 2) >= 1e-10
     s_valid = s[valid]
@@ -134,7 +199,9 @@ def rho_dudek_arr(s, m1, m2):
     return rho_vals
 
 
-def cm_dudek(s, m1, m2, branch=1):
+def cm_dudek(
+    s: complex | npt.NDArray[np.complex128], m1: float, m2: float, branch=1
+) -> complex | npt.NDArray[np.complex128]:
     if abs(s - (m1 + m2) ** 2) < 1e-10:
         return 0.0 + 0.0j
     rho_val = rho_dudek(s, m1, m2)
@@ -150,7 +217,9 @@ def cm_dudek(s, m1, m2, branch=1):
         )
 
 
-def cm_dudek_arr(s, m1, m2, branch=1):
+def cm_dudek_arr(
+    s: complex | npt.NDArray[np.complex128], m1: float, m2: float, branch=1
+) -> complex | npt.NDArray[np.complex128]:
     cm_vals = np.zeros_like(s, dtype=complex)
     valid = np.abs(s - (m1 + m2) ** 2) >= 1e-10
     s_valid = s[valid]
@@ -168,7 +237,20 @@ def cm_dudek_arr(s, m1, m2, branch=1):
     return cm_vals
 
 
-def amp(s, m1, m2, L, q0, g, beta, m0, c, b, branch=1, branch_cut_angle=0):
+def amp(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    L: int,
+    q0: float,
+    g: float,
+    beta: float,
+    m0: float,
+    c: float,
+    b: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     n_val = B(s, m1, m2, L, q0, branch=branch, branch_cut_angle=branch_cut_angle)
     rho_val = rho(s, m1, m2, branch=branch, branch_cut_angle=branch_cut_angle)
     K_mat_elem = n_val**2 * (g**2 / (m0**2 - s) + c)
@@ -176,7 +258,20 @@ def amp(s, m1, m2, L, q0, g, beta, m0, c, b, branch=1, branch_cut_angle=0):
     return P_vec_elem / (1 - K_mat_elem * 1.0j * rho_val)
 
 
-def amp2(s, m1, m2, L, q0, g, beta, m0, c, b, branch=1, branch_cut_angle=0):
+def amp2(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    L: int,
+    q0: float,
+    g: float,
+    beta: float,
+    m0: float,
+    c: float,
+    b: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     n_val = B_cm(s, m1, m2, L, q0, branch=branch, branch_cut_angle=branch_cut_angle)
     cm_val = cm(s, m1, m2, branch=branch, branch_cut_angle=branch_cut_angle)
     K_mat_elem = n_val**2 * (g**2 / (m0**2 - s) + c)
@@ -184,7 +279,20 @@ def amp2(s, m1, m2, L, q0, g, beta, m0, c, b, branch=1, branch_cut_angle=0):
     return P_vec_elem / (1 - K_mat_elem * cm_val)
 
 
-def amp3(s, m1, m2, L, q0, g, beta, m0, c, b, branch=1, branch_cut_angle=0):
+def amp3(
+    s: complex | npt.NDArray[np.complex128],
+    m1: float,
+    m2: float,
+    L: int,
+    q0: float,
+    g: float,
+    beta: float,
+    m0: float,
+    c: float,
+    b: float,
+    branch=1,
+    branch_cut_angle=0.0,
+) -> complex | npt.NDArray[np.complex128]:
     n_val = B_cm(s, m1, m2, L, q0, branch=branch, branch_cut_angle=branch_cut_angle)
     cm_val = cm_dudek_arr(s, m1, m2, branch=branch)
     K_mat_elem = n_val**2 * (g**2 / (m0**2 - s) + c)
@@ -192,7 +300,34 @@ def amp3(s, m1, m2, L, q0, g, beta, m0, c, b, branch=1, branch_cut_angle=0):
     return P_vec_elem / (1 + K_mat_elem * 1.0 / (16 * np.pi) * cm_val)
 
 
-def K_matrix(s, mR, gR, b, R, C, B, s0, s_norm):
+def K_matrix(
+    s: complex | npt.NDArray[np.complex128],
+    mR: float | npt.NDArray[np.float64],
+    gR: float | npt.NDArray[np.float64],
+    b: float | npt.NDArray[np.float64],
+    R: int,
+    C: int,
+    B: int,
+    s0: float,
+    s_norm: float,
+) -> complex | npt.NDArray[np.complex128]:
+    """
+    _summary_
+
+    Args:
+        s (complex | npt.NDArray[np.complex128]): _description_
+        mR (float | npt.NDArray[np.float64]): _description_
+        gR (float | npt.NDArray[np.float64]): _description_
+        b (float | npt.NDArray[np.float64]): _description_
+        R (int): _description_
+        C (int): _description_
+        B (int): _description_
+        s0 (float): _description_
+        s_norm (float): _description_
+
+    Returns:
+        complex | npt.NDArray[np.complex128]: _description_
+    """
     s_hat = s / s0 - 1.0
     K_mat = np.zeros((C, C), dtype=complex)
     for i in range(C):
@@ -208,14 +343,31 @@ def K_matrix(s, mR, gR, b, R, C, B, s0, s_norm):
     return K_mat
 
 
-def phsp_matrix(s, mC, C, branch):
+def phsp_matrix(
+    s: complex | npt.NDArray[np.complex128],
+    mC: float | npt.NDArray[np.float64],
+    C: int,
+    branch: npt.NDArray[np.bool],
+) -> complex | npt.NDArray[np.complex128]:
     phsp_mat = np.zeros((C, C), dtype=complex)
     for c in range(C):
         phsp_mat[c, c] = cm_dudek(s, mC[c, 0], mC[c, 1], branch[c])
     return phsp_mat
 
 
-def T_matrix(s, mR, mC, gR, b, R, C, B, s0, s_norm, branch=None):
+def T_matrix(
+    s: complex | npt.NDArray[np.complex128],
+    mR: float | npt.NDArray[np.float64],
+    mC: float | npt.NDArray[np.float64],
+    gR: float | npt.NDArray[np.float64],
+    b: float | npt.NDArray[np.float64],
+    R: int,
+    C: int,
+    B: int,
+    s0: float,
+    s_norm: float,
+    branch: npt.NDArray[np.bool] = None,
+) -> complex | npt.NDArray[np.complex128]:
     if branch is None:
         branch = np.ones(C)
     K_mat = K_matrix(s, mR, gR, b, R, C, B, s0, s_norm)
@@ -228,7 +380,16 @@ def T_matrix(s, mR, mC, gR, b, R, C, B, s0, s_norm, branch=None):
         return K_mat / (1 + K_mat * phsp_mat[0, 0])
 
 
-def P_vector(s, mR, gR, beta, b, R, C, B):
+def P_vector(
+    s: complex | npt.NDArray[np.complex128],
+    mR: float | npt.NDArray[np.float64],
+    gR: float | npt.NDArray[np.float64],
+    beta: float | npt.NDArray[np.float64],
+    b: float | npt.NDArray[np.float64],
+    R: int,
+    C: int,
+    B: int,
+) -> complex | npt.NDArray[np.complex128]:
     P_vec = np.zeros(C, dtype=complex)
     for i in range(C):
         bkg = 0.0 + 0.0j
@@ -242,19 +403,19 @@ def P_vector(s, mR, gR, beta, b, R, C, B):
 
 
 def F_vector(
-    s,
-    mR,
-    mC,
-    gR,
-    beta,
-    b_K_mat,
-    b_P_vec,
-    R,
-    C,
-    B_K_mat,
-    B_P_vec,
-    s0,
-    s_norm,
+    s: complex | npt.NDArray[np.complex128],
+    mR: float | npt.NDArray[np.float64],
+    mC: float | npt.NDArray[np.float64],
+    gR: float | npt.NDArray[np.float64],
+    beta: float | npt.NDArray[np.float64],
+    b_K_mat: float | npt.NDArray[np.float64],
+    b_P_vec: float | npt.NDArray[np.float64],
+    R: int,
+    C: int,
+    B_K_mat: int,
+    B_P_vec: int,
+    s0: float,
+    s_norm: float,
     branch=None,
 ):
     K_mat = K_matrix(s, mR, gR, b_K_mat, R, C, B_K_mat, s0, s_norm)
